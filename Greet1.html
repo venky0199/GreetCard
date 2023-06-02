@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=0.66">
+  <meta name="viewport" content="width=device-width, initial-scale=0.70">
   <style>
-     body {
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sDdzI_R3oK43XPF9i6LIJBbY9vSBjeMwF0XMwXEzDA&usqp=CAU&ec=48665701");
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+   body {
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sDdzI_R3oK43XPF9i6LIJBbY9vSBjeMwF0XMwXEzDA&usqp=CAU&ec=48665701");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
 
     .card {
       max-width: 600px;
@@ -101,6 +101,57 @@
       overflow: hidden;
       text-overflow: ellipsis; /* Add ellipsis if the text overflows */
     }
+
+    .hover-text-container {
+      position: relative;
+    }
+
+    .hover-text-container .seconds {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the seconds container */
+    }
+
+    .hover-text-container .minutes {
+      position: absolute;
+      right: 0;
+      bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the minutes container */
+    }
+
+    .hover-text-container .days {
+      position: absolute;
+      right: 0;
+      bottom: 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the days container */
+    }
+
+    /* Added space between days, minutes, and seconds */
+  .hover-text-container .seconds{
+      margin-top: 1%;
+    }
+    .hover-text-container .minutes{
+      margin-bottom: 2%;
+    }
+    .hover-text-container .days {
+      margin-bottom: 3.1%;
+    }
   </style>
 </head>
 <body>
@@ -109,16 +160,19 @@
       <img id="play-button" src="https://i.postimg.cc/Yq5Ccx9D/IMG-20201225-WA0020.jpg" alt="Birthday Greeting Card">
     </div>
     <div class="card-text">
-      <p id="hover-text"><b>Happy Birthday! Avanthi</b></p>
-      <p>On this special day, I want to shower you with love and make your birthday unforgettable. You're not just my Lover, you are my everything. Your presence in my life brings joy, laughter, and endless happiness.
+      <p><b>Happy Birthday! Avanthi</b></p>
+      <div class="hover-text-container">
+        <p id="hover-text">On this special day, I want to shower you with love and make your birthday unforgettable. You're not just my Lover, you are my everything. Your presence in my life brings joy, laughter, and endless happiness.
         As we celebrate your birthday, let's create new memories together and cherish the moments we've shared. You deserve all the happiness in the world, and I promise to make every day as special as today.
         You have an amazing spirit that brightens up the lives of everyone around you. Your kind heart, beautiful smile, and unwavering support make me feel truly blessed. Thank you for being by my side through thick and thin.
-        May this day bring you countless smiles, warm hugs, and delightful surprises. I am grateful to have you in my life, and I look forward to celebrating many more birthdays with you......<br>Love you forever and ever</p>
-
-        <audio id="my_audio" loop>
-          
-          <source src="Audio.ogg" type="audio/ogg">
-        </audio>
+        May this day bring you countless smiles, warm hugs, and delightful surprises. I am grateful to have you in my life, and I look forward to celebrating many more birthdays with you......<br>Love you forever and ever <span class="seconds"></span><span class="minutes"></span><span class="days"></span></p>
+        <div class="seconds">Seconds since your birthday: 0</div>
+        <div class="minutes">Minutes since your birthday: 0</div>
+        <div class="days">Days since your birthday: 0</div>
+      </div>
+      <audio id="my_audio" loop>
+        <source src="Audio.ogg" type="audio/ogg">
+      </audio>
     </div>
   </div>
 
@@ -131,6 +185,11 @@
     var playButton = document.getElementById('play-button');
     var isPlaying = false;
     var popup = document.getElementById('popup');
+    var hoverText = document.getElementById('hover-text');
+    var hoverInterval;
+    var secondsContainer = document.querySelector('.seconds');
+    var minutesContainer = document.querySelector('.minutes');
+    var daysContainer = document.querySelector('.days');
 
     playButton.addEventListener('click', function() {
       if (isPlaying) {
@@ -139,6 +198,34 @@
         audio.play();
       }
       isPlaying = !isPlaying;
+    });
+
+    hoverText.addEventListener('mouseover', function() {
+      var birthdayDate = new Date('June 2, 2001');
+      var currentDate = new Date();
+
+      secondsContainer.style.display = 'block'; // Show the seconds container
+      minutesContainer.style.display = 'block'; // Show the minutes container
+      daysContainer.style.display = 'block'; // Show the days container
+
+      hoverInterval = setInterval(function() {
+        var seconds = Math.floor((currentDate - birthdayDate) / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var days = Math.floor(minutes / 1440);
+
+        secondsContainer.innerText = 'Seconds since your birthday: ' + seconds;
+        minutesContainer.innerText = 'Minutes since your birthday: ' + minutes;
+        daysContainer.innerText = 'Days since your birthday: ' + days;
+
+        currentDate = new Date(); // Update the current date
+      }, 1000);
+    });
+
+    hoverText.addEventListener('mouseout', function() {
+      clearInterval(hoverInterval);
+      secondsContainer.style.display = 'none'; // Hide the seconds container
+      minutesContainer.style.display = 'none'; // Hide the minutes container
+      daysContainer.style.display = 'none'; // Hide the days container
     });
 
     // Show popup after 3 seconds
