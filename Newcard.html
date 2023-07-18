@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=0.66">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
   <style>
     body {
       background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sDdzI_R3oK43XPF9i6LIJBbY9vSBjeMwF0XMwXEzDA&usqp=CAU&ec=48665701");
@@ -90,7 +90,7 @@
       left: 50%;
       transform: translateX(-40%);
       background-color: rgba(0, 0, 0, 0.8);
-      padding: 20px;
+      padding:20px;
       border-radius: 20px;
       color: white;
       font-size: 20px;
@@ -253,15 +253,14 @@
     });
   
     // Show popup only if it hasn't been shown before
-    if (!isPopupShown) {
+    setTimeout(function() {
       popup.style.display = 'block';
-      isPopupShown = true;
       // Hide popup after 3 seconds
       setTimeout(function() {
         popup.style.display = 'none';
       }, 3000);
-    }
+    }, 4000);
+  
   </script>
-      
 </body>
 </html>
