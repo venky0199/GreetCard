@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=0.66">
+  <style>
+    body {
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-sDdzI_R3oK43XPF9i6LIJBbY9vSBjeMwF0XMwXEzDA&usqp=CAU&ec=48665701");
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      max-width: 600px;
+      width: 100%;
+      background-image: url("https://i.pinimg.com/originals/cd/5e/4e/cd5e4e35c5b8e0f250661d5de909f7c3.jpg");
+      background-size: 150% auto;
+      background-position: center;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      font-family: Arial, sans-serif;
+    }
+
+    .card-image {
+      flex: 0 0 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .card-text {
+      flex: 0 0 60%;
+      padding: 8px;
+    }
+
+    .card p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: black;
+      animation: color-animation 5s;
+      overflow-wrap: break-word;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+      cursor: pointer;
+    }
+
+    @keyframes color-animation {
+      0% { background-color: aqua; }
+      50% { background-color: azure; }
+      100% { background-color: burlywood; }
+    }
+
+    .card b {
+      color: #ff5b5b;
+      font-size: large;
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-size: 16px;
+      color: black;
+    }
+
+    p:hover {
+      background-color: navajowhite;
+      font-size: large;
+    }
+
+    /* Hide default audio controls */
+    audio {
+      display: none;
+    }
+
+    /* Popup styles */
+    .popup {
+      position: fixed;
+      bottom: 33%; /* Adjust the bottom value to position the popup */
+      left: 50%;
+      transform: translateX(-40%);
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 20px;
+      color: white;
+      font-size: 20px;
+      text-align: center;
+      z-index: 9999;
+      display: none;
+      white-space: nowrap; /* Ensure the text stays in a single line */
+      overflow: hidden;
+      text-overflow: ellipsis; /* Add ellipsis if the text overflows */
+    }
+
+    .hover-text-container {
+      position: relative;
+    }
+
+    .hover-text-container .seconds {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the seconds container */
+    }
+
+    .hover-text-container .minutes {
+      position: absolute;
+      right: 0;
+      bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the minutes container */
+    }
+
+    .hover-text-container .days {
+      position: absolute;
+      right: 0;
+      bottom: 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: white;
+      font-size: 14px;
+      display: none; /* Initially hide the days container */
+    }
+
+    /* Added space between days, minutes, and seconds */
+    .hover-text-container .seconds {
+      margin-top: 1%;
+    }
+    .hover-text-container .minutes {
+      margin-bottom: 2%;
+    }
+    .hover-text-container .days {
+      margin-bottom: 3.1%;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-image">
+      <img id="play-button" src="https://i.postimg.cc/x8YKnm4v/IMG-20201225-WA0020.jpg" alt="Birthday Greeting Card">
+    </div>
+    <div class="card-text">
+      <p><b>Happy Birthday! MyLove</b></p>
+      <div class="hover-text-container">
+        <p id="hover-text">On this special day, I want to shower you with love and make your birthday unforgettable. You're not just my Lover, you are my everything. Your presence in my life brings joy, laughter, and endless happiness.
+        As we celebrate your birthday, let's create new memories together and cherish the moments we've shared. You deserve all the happiness in the world, and I promise to make every day as special as today.
+        You have an amazing spirit that brightens up the lives of everyone around you. Your kind heart, beautiful smile, and unwavering support make me feel truly blessed. Thank you for being by my side through thick and thin.
+        May this day bring you countless smiles, warm hugs, and delightful surprises. I am grateful to have you in my life, and I look forward to celebrating many more birthdays with you......<br>Love you forever and ever <span class="seconds"></span><span class="minutes"></span><span class="days"></span></p>
+        <div class="seconds">Seconds since your birthday: 0</div>
+        <div class="minutes">Minutes since your birthday: 0</div>
+        <div class="days">Days since your birthday: 0</div>
+      </div>
+      <audio id="my_audio" loop>
+        <source src="Vaa Vaati.mp3" type="audio/ogg">
+      </audio>
+    </div>
+  </div>
+
+  <div id="popup" class="popup">
+    <p>Click on the image to start or stop playing</p>
+    <p>Click on the text</p>
+  </div>
+  <script>
+    var audio = document.getElementById('my_audio');
+    var playButton = document.getElementById('play-button');
+    var isPlaying = false;
+    var popup = document.getElementById('popup');
+    var hoverText = document.getElementById('hover-text');
+    var hoverInterval;
+    var secondsContainer = document.querySelector('.seconds');
+    var minutesContainer = document.querySelector('.minutes');
+    var daysContainer = document.querySelector('.days');
+  
+    var isPopupShown = false; // Variable to track if the popup has been shown
+    var isPasswordCorrect = false; // Variable to track if the password has been entered correctly
+  
+    // Function to play the song and show the image if the password matches
+    function playSongAndShowImage() {
+      var password = prompt("Enter the password to play the song and view the image:");
+      var correctPassword = "Avanthi@123"; // Replace 'your_password_here' with the correct password
+  
+      if (password === correctPassword) {
+        audio.play();
+        isPlaying = true;
+        isPasswordCorrect = true;
+        // Display the new image
+        var newImageURL = "https://i.postimg.cc/Xv08NpML/gettyimages-538134150-612x612.jpg"; // Replace with the new image URL
+        document.querySelector('.card-image img').src = newImageURL;
+      } else {
+        alert("Incorrect password. Please try again.");
+      }
+    }
+  
+    playButton.addEventListener('click', function() {
+      // If the password matches, play the song and show the image
+      if (!isPlaying && isPasswordCorrect) {
+        audio.play();
+        isPlaying = true;
+      } else if (!isPlaying && !isPasswordCorrect) {
+        playSongAndShowImage();
+      } else {
+        audio.pause();
+        isPlaying = false;
+      }
+    });
+  
+    hoverText.addEventListener('mouseover', function() {
+      var birthdayDate = new Date('June 2, 2001');
+      var currentDate = new Date();
+  
+      secondsContainer.style.display = 'block'; // Show the seconds container
+      minutesContainer.style.display = 'block'; // Show the minutes container
+      daysContainer.style.display = 'block'; // Show the days container
+  
+      hoverInterval = setInterval(function() {
+        var seconds = Math.floor((currentDate - birthdayDate) / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var days = Math.floor(minutes / 1440);
+  
+        secondsContainer.innerText = 'Seconds since your birthday: ' + seconds;
+        minutesContainer.innerText = 'Minutes since your birthday: ' + minutes;
+        daysContainer.innerText = 'Days since your birthday: ' + days;
+  
+        currentDate = new Date(); // Update the current date
+      }, 1000);
+    });
+  
+    hoverText.addEventListener('mouseout', function() {
+      clearInterval(hoverInterval);
+      secondsContainer.style.display = 'none'; // Hide the seconds container
+      minutesContainer.style.display = 'none'; // Hide the minutes container
+      daysContainer.style.display = 'none'; // Hide the days container
+    });
+  
+    // Show popup only if it hasn't been shown before
+    if (!isPopupShown) {
+      popup.style.display = 'block';
+      isPopupShown = true;
+      // Hide popup after 3 seconds
+      setTimeout(function() {
+        popup.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+      
+</body>
+</html>
